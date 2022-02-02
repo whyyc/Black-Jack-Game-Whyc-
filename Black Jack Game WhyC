@@ -1,0 +1,131 @@
+#The improve version BlackJack or 21 game For WHY C
+
+import random
+
+def play_game():
+    # New text for the game
+    print("Welcome to Blackjack.")
+    print("You will have 10000 chips ")
+    no_game=input ("How many games do you want to play")
+    # New variables 
+    total_games = 0
+    dealer_score = 0
+    player_score = 0
+    player_bet = 0
+    player_chips = 10000
+
+
+    for total_games in range(int(no_game)):
+        
+        if player_chips<=0:
+            print("Sorry you don't have enough chips to continue the game, we will have to stop the game now, wish to see you next time")
+        else:
+            # Text to inform the player of the game
+            player_bet=int(input("How much do you wish to bet?"))
+
+            if player_bet>player_chips:
+                print("Your bet is more than what you have, please bet smaller.")
+            elif player_bet<=0:
+                print("Please bet again, your bet is too small.")
+            else:
+                print("Game " + str(total_games + 1) + ". Dealing the cards")
+                # Dealer cards
+                dealer_cards = []
+                # Player cards
+                player_cards = []
+
+                while len(dealer_cards) != 2:
+                    dealer_cards.append(random.randint(1, 11))
+                    if len(dealer_cards) == 2:
+                        print("Dealer has X &", dealer_cards[1])
+
+                # Player Cards
+                while len(player_cards) != 2:
+                    player_cards.append(random.randint(1, 11))
+                    if len(player_cards) == 2:
+                        print("You have ", player_cards)
+
+                 # Sum of the Dealer cards
+                if sum(dealer_cards) == 21:
+                    # 2) Add 1 for dealer
+                    dealer_score += 1
+                    print("Dealer has 21 and wins!")
+                    player_chips = player_chips - player_bet
+                    print("You have "+ str(player_chips) + " left")
+
+                elif sum(dealer_cards) > 21:
+                    # 2) Add 1 for player
+                    player_score += 1
+                    print("Dealer has busted!")
+                    player_chips = player_chips + player_bet
+                    print("You have won "+ str(player_bet) + " now you have "+str(player_chips))
+
+
+                # Sum of the Player cards
+                while sum(player_cards) < 21:
+                    action_taken = str(input("Do you want to stay or hit?  "))
+                    if action_taken == "hit":
+                        player_cards.append(random.randint(1, 11))
+                        print("You now have a total of " + str(sum(player_cards)) + " from these cards ", player_cards)
+                    else:
+                        print("The dealer has a total of " + str(sum(dealer_cards)) + " with ", dealer_cards)
+                        print("You have a total of " + str(sum(player_cards)) + " with ", player_cards)
+
+                        if sum(dealer_cards) > sum(player_cards):
+                            # 2) Add 1 for dealer
+                            dealer_score += 1
+                            print("Dealer wins!")
+                            player_chips = player_chips - player_bet
+                            print("You have "+ str(player_chips) + " left")
+
+                        else:
+                            # 2) Add 1 for player
+                            player_score += 1
+                            print("You win!")
+                            player_chips = player_chips + player_bet
+                            print("You have won "+ str(player_bet) + " now you have "+str(player_chips))
+
+
+                            break
+
+                if sum(player_cards) > 21:
+                    # 2) Add 1 for dealer
+                    dealer_score += 1
+                    print("You BUSTED! Dealer wins.")
+                    player_chips = player_chips - player_bet
+                    print("You have "+ str(player_chips) + " left")
+
+                elif sum(player_cards) == 21:
+                    # 2) Add 1 for player
+                    player_score += 1
+                    print("You have BLACKJACK! You Win!! 21")
+                    player_chips = player_chips + player_bet
+                    print("You have won "+ str(player_bet) + " now you have "+str(player_chips))
+
+
+
+
+
+                # Text to inform the player of the status of the game and iterate over the total_games
+                print("Dealer: " + str(dealer_score) + " games" + " - to - You: " + str(player_score) + " games")
+                print("------BEST----OF----FIVE---------------")
+                total_games += 1
+            
+        
+        
+        
+        
+        
+
+
+play_game()
+
+
+
+
+ # Compare the sums of the cards between D v P  
+ # If P card sum is greater than 21 = BUST
+ # If P card sum is less than 21 = Option Hit or Stay
+ # If P option Stay compare sum of D v P 
+ # If P sum < 21 && > D sum then P wins!
+ # If P sum < D sum then P loses
